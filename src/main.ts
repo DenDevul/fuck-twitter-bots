@@ -43,10 +43,10 @@ function waitForEl(selector: string): Promise<Element | null> {
 async function hideTweets() {
   observer?.disconnect();
 
-  const originalAuthor = document.URL.split('/')[3];
   const conversation = await waitForEl(timelineSelector);
 
   observer = new MutationObserver(() => {
+    const currentAuthor = document.URL.split('/')[3];
     const tweets = (conversation?.querySelectorAll(tweetsSelector) ||
       []) as HTMLElement[];
 
@@ -57,7 +57,7 @@ async function hideTweets() {
       if (!username) continue;
 
       if (
-        username.textContent.includes(originalAuthor) ||
+        username.textContent.includes(currentAuthor) ||
         username.textContent.includes('@grok')
       )
         continue;
